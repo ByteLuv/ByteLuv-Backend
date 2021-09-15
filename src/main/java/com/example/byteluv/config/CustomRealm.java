@@ -2,7 +2,7 @@ package com.example.byteluv.config;
 
 import com.example.byteluv.pojo.base.Permissions;
 import com.example.byteluv.pojo.base.Role;
-import com.example.byteluv.pojo.base.User;
+import com.example.byteluv.pojo.User;
 import com.example.byteluv.service.LoginService;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
