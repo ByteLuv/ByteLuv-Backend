@@ -1,7 +1,9 @@
 package com.example.byteluv.controller;
 
-import com.example.byteluv.pojo.base.User;
+import com.example.byteluv.pojo.User;
 import com.example.byteluv.service.LoginService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -16,7 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.thymeleaf.util.StringUtils;
 
-@Controller
+@RestController
 @Slf4j
 public class LoginController {
 
@@ -24,21 +26,14 @@ public class LoginController {
     LoginService loginService;
 
     @GetMapping("/login")
+    @ApiOperation(value = "登录")
     public String login(@RequestParam String uname,@RequestParam String passward) {
         if (StringUtils.isEmpty(uname) || StringUtils.isEmpty(passward)) {
             return "login";
         }
-//        //用户认证信息
-        Subject subject = SecurityUtils.getSubject();
-        UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(
-                uname,
-                passward
-        );
+        User user = null;
         try {
-            //进行验证，这里可以捕获异常，然后返回对应信息
-            subject.login(usernamePasswordToken);
-//            subject.checkRole("admin");
-//            subject.checkPermissions("query", "add");
+            user = loginService.getUserByName(uname);
         } catch (UnknownAccountException e) {
             log.error("用户名不存在！", e);
             return "用户名不存在！";
@@ -49,13 +44,11 @@ public class LoginController {
             log.error("没有权限！", e);
             return "没有权限";
         }
-        return "login success";
-//        return "/login";
-    }
-
-    @PostMapping("/login")
-    public String login(User user){
-        return "sign up succestful";
+        if(user==null){
+            return "login false";
+        }else {
+            return "login success";
+        }
     }
 
     @ResponseBody
