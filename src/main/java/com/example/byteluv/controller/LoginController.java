@@ -27,8 +27,8 @@ public class LoginController {
 
     @GetMapping("/login")
     @ApiOperation(value = "登录")
-    public String login(@RequestParam String uname,@RequestParam String passward) {
-        if (StringUtils.isEmpty(uname) || StringUtils.isEmpty(passward)) {
+    public String login(@RequestParam String uname,@RequestParam String password) {
+        if (StringUtils.isEmpty(uname) || StringUtils.isEmpty(password)) {
             return "login";
         }
         User user = null;
@@ -44,11 +44,13 @@ public class LoginController {
             log.error("没有权限！", e);
             return "没有权限";
         }
-        if(user==null){
-            return "login false";
+        if(user==null||!user.getPassword().equals(password)){
+            return "账户或密码错误";
         }else {
             return "login success";
         }
+
+
     }
 
     @ResponseBody
