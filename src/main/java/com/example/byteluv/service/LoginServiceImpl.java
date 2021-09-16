@@ -24,6 +24,7 @@ public class LoginServiceImpl implements LoginService {
     public User getUserByName(String uname) {
         User user=null;
         return user;
+
     }
 
 }
