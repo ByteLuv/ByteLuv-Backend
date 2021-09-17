@@ -1,5 +1,7 @@
 package com.example.byteluv.controller;
 
+import com.alibaba.druid.util.StringUtils;
+import com.alibaba.fastjson.JSON;
 import com.example.byteluv.pojo.User;
 import com.example.byteluv.service.LoginService;
 import io.swagger.annotations.Api;
@@ -8,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -16,7 +17,7 @@ import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.thymeleaf.util.StringUtils;
+import com.example.byteluv.util.ErrorCode;
 
 @RestController
 @Slf4j
@@ -27,27 +28,16 @@ public class LoginController {
 
     @GetMapping("/login")
     @ApiOperation(value = "登录")
-    public String login(@RequestParam String uname,@RequestParam String password) {
-        if (StringUtils.isEmpty(uname) || StringUtils.isEmpty(password)) {
-            return "login";
+    public String login(@RequestParam String uname,@RequestParam String pwd) {
+        if (StringUtils.isEmpty(uname) || StringUtils.isEmpty(pwd)) {
+            return JSON.toJSONString(ErrorCode.LOGIN_NULL);
         }
         User user = null;
-        try {
-            user = loginService.getUserByName(uname);
-        } catch (UnknownAccountException e) {
-            log.error("用户名不存在！", e);
-            return "用户名不存在！";
-        } catch (AuthenticationException e) {
-            log.error("账号或密码错误！", e);
-            return "账号或密码错误！";
-        } catch (AuthorizationException e) {
-            log.error("没有权限！", e);
-            return "没有权限";
-        }
-        if(user==null||!user.getPassword().equals(password)){
+        user=loginService.getUserByName(uname);
+        if(user==null||!user.getPassword().equals(pwd)){
             return "账户或密码错误";
         }else {
-            return "login success";
+            return JSON.toJSONString(user);
         }
 
 

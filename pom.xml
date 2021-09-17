@@ -20,6 +20,7 @@
         <mybatis.version>3.4.3</mybatis.version>
         <JDBC.version>2.3.4.RELEASE</JDBC.version>
         <druid.version>1.2.6</druid.version>
+        <fastjson.version>1.2.78</fastjson.version>
     </properties>
     <dependencies>
         <dependency>
@@ -84,11 +85,6 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
-        <!--页面模板依赖-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
-        </dependency>
 
         <!-- Mysql驱动包 -->
         <dependency>
@@ -107,6 +103,12 @@
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
             <version>${druid.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
         </dependency>
 
     </dependencies>
