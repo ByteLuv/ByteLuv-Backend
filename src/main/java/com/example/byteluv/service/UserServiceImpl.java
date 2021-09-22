@@ -31,17 +31,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>  implements U
 
     @Override
     public ErrorCode addUser(User user) {
-        if(userMapper.selectOne(new QueryWrapper<User>().eq("uname",user.getUname()))!=null){
+        if(userMapper.selectOne(new QueryWrapper<User>().eq("uname",user.getUname()))==null){
             try{
                 userMapper.insert(user);
             }catch (Exception e){
                 System.out.println("-------------");
                 System.out.println(e.getMessage());
                 System.out.println("-------------");
-                return ErrorCode.SIGNUP_FAIL_EXIST;
+                return ErrorCode.SIGNUP_FAIL_INSERT;
             }
         }else{
-            return ErrorCode.SIGNUP_FAIL_INSERT;
+            return ErrorCode.SIGNUP_FAIL_EXIST;
         }
         return ErrorCode.SIGNUP_SUCCESS;
     }

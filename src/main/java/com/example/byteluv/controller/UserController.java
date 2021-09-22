@@ -24,7 +24,7 @@ public class UserController {
     UserService userService;
 
     @GetMapping("/login")
-    @ApiOperation(value = "登录")
+    @ApiOperation(value = "login")
     public String login(@RequestParam String uname,@RequestParam String pwd) {
 
         User user = null;
@@ -50,8 +50,6 @@ public class UserController {
 
         //返回结果
         return json;
-
-
     }
 
     @ResponseBody
@@ -70,7 +68,7 @@ public class UserController {
         //无此用户或者用户密码错误
         if(addResult==ErrorCode.SIGNUP_FAIL_INSERT){
             result.put("ErrorCode",1);
-            result.put("Descript","注册失败");
+            result.put("Descript","注册失败，插入数据库失败");
         }else if(addResult==ErrorCode.SIGNUP_FAIL_EXIST){
             result.put("ErrorCode",1);
             result.put("Descript","注册失败，该用户已存在");
