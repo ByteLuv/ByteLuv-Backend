@@ -1,26 +1,24 @@
 package com.example.byteluv.pojo;
 
+import io.swagger.models.auth.In;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
-/*
- * @Date 2021/9/15 14:41
- * @User MrWang
- * @ClassName Message
- * @Descript
- */
+/**
+ * @Author MrWang98
+ * @Date 2021/9/22 14:29
+ **/
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Message {
+public class Schedule {
     private Integer id;
+    private Date startTime;
+    private Date endTime;
+    private String mainBody;
     private String type;
-    private Integer cid;
-    private String text;
-    private Date sendTime;
     private Integer uid;
-    private Boolean isRead;
 }

@@ -14,6 +14,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Card {
+    private Integer id;
     private String title;
     private String content;
+    private Integer uid;
 }

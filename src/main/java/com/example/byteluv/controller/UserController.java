@@ -27,8 +27,9 @@ public class UserController {
     @ApiOperation(value = "login")
     public String login(@RequestParam String uname,@RequestParam String pwd) {
 
+        //从数据库里寻找用户信息
         User user = null;
-        user = userService.getUserByName(uname); //从数据库里寻找用户信息
+        user = userService.getUserByName(uname);
 
         //返回前端的结果
         Map<String,Object> result = new HashMap<>();
@@ -87,7 +88,6 @@ public class UserController {
 
         //返回结果
         return json;
-
     }
 
     @ResponseBody
