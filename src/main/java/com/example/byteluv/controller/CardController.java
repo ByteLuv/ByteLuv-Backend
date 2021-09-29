@@ -1,6 +1,20 @@
 package com.example.byteluv.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.example.byteluv.mappers.CardMapper;
+import com.example.byteluv.pojo.Card;
+import com.example.byteluv.service.CardService;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @Author MrWang98
@@ -8,4 +22,36 @@ import org.springframework.web.bind.annotation.RestController;
  **/
 @RestController
 public class CardController {
+
+    @Autowired
+    CardMapper cardMapper;
+
+    @Autowired
+    CardService cardService;
+
+    @GetMapping("/userCardQuery")
+    @ApiOperation(value = "userCardQuery")
+    public String userCardQuery(@RequestParam Integer uid){
+
+
+        Card card = null;
+        card = cardService.getCardById(uid);
+
+        Map<String,Object> result = new HashMap<>();
+        if(card==null){
+            result.put("ErrorCode",1);
+        }else{
+            result.put("ErrorCode",0);
+            result.put("LoveLetterId",card.getId());
+            result.put("CardTitle",card.getTitle());
+        }
+
+        //将结果转为JSON
+        String jsonString = JSON.toJSONString(result);
+        JSONObject object = JSONObject.parseObject(jsonString);
+        String json = JSON.toJSONString(object, SerializerFeature.PrettyFormat, SerializerFeature.WriteMapNullValue,
+                SerializerFeature.WriteDateUseDateFormat);
+
+        return json;
+    }
 }
