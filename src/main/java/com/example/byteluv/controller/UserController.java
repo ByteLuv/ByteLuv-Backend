@@ -94,6 +94,43 @@ public class UserController {
     }
 
     @ResponseBody
+    @GetMapping("/information")
+    public String information(@RequestParam String uname,@RequestParam(required = false)String email,@RequestParam(required = false) String phone,@RequestParam Integer id){
+
+        User user = null;
+        user = userService.getUserByName(uname); //从数据库里寻找用户信息
+
+        //返回前端的结果
+        Map<String,Object> result = new HashMap<>();
+
+        //查无此用户
+        if(user==null){
+            result.put("ErrorCode",1);
+            result.put("Descript","查看用户信息失败");
+        }else {
+            result.put("ErrorCode",0);
+            result.put("Descript","查看用户信息成功");
+            result.put("uid",user.getId());
+            result.put("uname",user.getUname());
+            result.put("telephone",user.getPhone());
+            result.put("email",user.getEmail());
+            result.put("birthday",user.getBirth());
+//            result.put("MessageCode",);还需要函数遍历数据库查message
+
+        }
+
+        //将结果转为JSON
+        String jsonString = JSON.toJSONString(result);
+        JSONObject object = JSONObject.parseObject(jsonString);
+        String json = JSON.toJSONString(object, SerializerFeature.PrettyFormat, SerializerFeature.WriteMapNullValue,
+                SerializerFeature.WriteDateUseDateFormat);
+
+        //返回结果
+        return json;
+    }
+
+
+    @ResponseBody
     @RequiresRoles("admin")
     @GetMapping("/admin")
     public String admin() {
@@ -113,4 +150,6 @@ public class UserController {
     public String add() {
         return "add success!";
     }
+
+
 }
