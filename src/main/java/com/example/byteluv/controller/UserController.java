@@ -25,8 +25,8 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    @ResponseBody
     @GetMapping("/login")
-    @ApiOperation(value = "login")
     public String login(@RequestParam String uname,@RequestParam String pwd) {
 
         //从数据库里寻找用户信息

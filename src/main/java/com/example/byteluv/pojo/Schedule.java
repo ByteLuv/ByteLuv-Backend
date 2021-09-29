@@ -1,10 +1,12 @@
 package com.example.byteluv.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.models.auth.In;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -16,8 +18,12 @@ import java.util.Date;
 @AllArgsConstructor
 public class Schedule {
     private Integer id;
-    private Date startTime;
-    private Date endTime;
+
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    private LocalDateTime startTime;
+    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    private LocalDateTime endTime;
+
     private String mainBody;
     private String type;
     private Integer uid;
