@@ -44,6 +44,7 @@ public class CardController {
             result.put("ErrorCode",0);
             result.put("LoveLetterId",card.getId());
             result.put("CardTitle",card.getTitle());
+            result.put("card",card);
         }
 
         //将结果转为JSON
