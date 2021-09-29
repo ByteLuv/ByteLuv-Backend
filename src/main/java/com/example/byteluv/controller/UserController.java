@@ -59,6 +59,10 @@ public class UserController {
     @GetMapping("/")
     public String home(){return "/login";}
 
+
+
+    
+
     @ResponseBody
     @PostMapping("/signup")
     public String signup(User user){
