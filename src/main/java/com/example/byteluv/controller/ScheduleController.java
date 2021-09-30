@@ -27,18 +27,18 @@ public class ScheduleController {
 
     @ResponseBody
     @PostMapping("/dateQueryWithPeriod")
-    public String getSchdule(@RequestParam Integer uid, LocalDate leftTime, LocalDate rightTime){
+    public String getSchdule(@RequestParam Integer uid, String leftTime, String rightTime){
 
-//        List<Schedule> schedules = scheduleService.getScheduleByUidPeriod(uid,leftTime,rightTime);
+        List<Schedule> schedules = scheduleService.getScheduleByUidPeriod(uid,leftTime,rightTime);
 
         Map<String,Object> result = new HashMap<>();
-//        if(schedules==null){
-//            result.put("ErrorCode",1);
-//            result.put("Descript","查询失败");
-//        }else{
-//            result.put("ErrorCode",0);
-//            result.put("Date",schedules);
-//        }
+        if(schedules==null){
+            result.put("ErrorCode",1);
+            result.put("Descript","查询失败");
+        }else{
+            result.put("ErrorCode",0);
+            result.put("Date",schedules);
+        }
 
         //将结果转为JSON
         String jsonString = JSON.toJSONString(result);
@@ -49,5 +49,29 @@ public class ScheduleController {
         //返回结果
         return json;
 
+    }
+
+    @ResponseBody
+    @PostMapping("/addSchdule")
+    public String addSchdule(@RequestParam Integer uid,@RequestParam Schedule schedule){
+        return "undo";
+    }
+
+    @ResponseBody
+    @PostMapping("/modifySchdule")
+    public String modifySchdule(@RequestParam Integer dateId,@RequestParam Schedule schedule){
+        return "undo";
+    }
+
+    @ResponseBody
+    @PostMapping("/deleteSchdule")
+    public String deleteSchdule(@RequestParam Integer dateId){
+        return "undo";
+    }
+
+    @ResponseBody
+    @PostMapping("/dateQueryWithId")
+    public String dateQueryWithId(@RequestParam Integer dateId){
+        return "undo";
     }
 }
