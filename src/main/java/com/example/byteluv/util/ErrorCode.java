@@ -18,7 +18,8 @@ public enum ErrorCode {
     SIGNUP_SUCCESS(4,0,"注册成功"),
     ADDSCHEDULE_FAIL_INSER(5,1,"添加日程失败"),
     ADDSCHEDULE_FAIL_DATAWRONG(6,1,"日期前后反向"),
-    ADDSCHEDULE_SUCCESS(7,0,"添加日程成功");
+    ADDSCHEDULE_FAIL_EXIST(7,1,"日程已存在"),
+    ADDSCHEDULE_SUCCESS(8,0,"添加日程成功");
 
 
     private Integer code;

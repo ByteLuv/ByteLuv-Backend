@@ -35,6 +35,12 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Override
     public ErrorCode addSchedule(Schedule schedule) {
+
+        //日程是否已存在
+        if(scheduleMapper.selectOne(new QueryWrapper<Schedule>().eq("id",schedule.getId()))==null)
+            return ErrorCode.ADDSCHEDULE_FAIL_EXIST;
+
+        //判断开始日期是否早于结束日期
         if(schedule.getStartTime().isBefore(schedule.getEndTime())){
             try{
                 scheduleMapper.insert(schedule);
@@ -42,10 +48,12 @@ public class ScheduleServiceImpl implements ScheduleService {
                 System.out.println("-------------");
                 System.out.println(e.getMessage());
                 System.out.println("-------------");
-                return ErrorCode.ADDSCHEDULE_FAIL_INSER;
+                return ErrorCode.ADDSCHEDULE_FAIL_INSER;//插入错误
             }
         }else{
             return ErrorCode.ADDSCHEDULE_FAIL_DATAWRONG;
+
+
         }
         return ErrorCode.ADDSCHEDULE_SUCCESS;
     }

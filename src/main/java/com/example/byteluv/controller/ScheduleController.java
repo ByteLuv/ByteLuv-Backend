@@ -55,23 +55,27 @@ public class ScheduleController {
     @ResponseBody
     @PostMapping("/addSchdule")
     public String addSchdule(@RequestParam Integer uid,Schedule schedule){
-
+        //?schedule类实例本身就有uid，不需传值uid?
         //将日程添加到数据库
         ErrorCode addResult = scheduleService.addSchedule(schedule);
 
         //返回前端的结果
         Map<String,Object> result = new HashMap<>();
         //日程插入错误或日期反向
-        if(addResult==ErrorCode.ADDSCHEDULE_FAIL_INSER){
-            result.put("ErrorCode",1);
-            result.put("Descript","添加失败，插入数据库失败");
-        }else if(addResult==ErrorCode.ADDSCHEDULE_FAIL_DATAWRONG){
-            result.put("ErrorCode",1);
-            result.put("Descript","添加失败，结束日期早于开始日期");
-        }else {
-            result.put("ErrorCode",0);
-            result.put("DateId",schedule.getId());
-            result.put("Descript","添加成功");
+        switch (addResult){
+            case ADDSCHEDULE_FAIL_EXIST:
+                result.put("ErrorCode",1);
+                result.put("Descript","添加失败，日期ID已存在");
+            case ADDSCHEDULE_FAIL_INSER :
+                result.put("ErrorCode",1);
+                result.put("Descript","添加失败，插入数据库失败");
+            case ADDSCHEDULE_FAIL_DATAWRONG :
+                result.put("ErrorCode",1);
+                result.put("Descript","添加失败，结束日期早于开始日期");
+            case ADDSCHEDULE_SUCCESS :
+                result.put("ErrorCode",0);
+                result.put("DateId",schedule.getId());
+                result.put("Descript","添加成功");
         }
 
         //将结果转为JSON
