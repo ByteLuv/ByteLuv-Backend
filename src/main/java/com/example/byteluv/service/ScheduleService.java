@@ -1,6 +1,7 @@
 package com.example.byteluv.service;
 
 import com.example.byteluv.pojo.Schedule;
+import com.example.byteluv.util.ErrorCode;
 
 import java.util.Date;
 import java.util.List;
@@ -11,4 +12,5 @@ import java.util.List;
  **/
 public interface ScheduleService {
     public List<Schedule> getScheduleByUidPeriod(Integer uid, String leftTime, String rightTime);
+    public ErrorCode addSchedule(Schedule schedule);
 }
