@@ -54,7 +54,7 @@ public class ScheduleController {
 
     @ResponseBody
     @PostMapping("/addSchdule")
-    public String addSchdule(@RequestParam Integer uid,@RequestParam Schedule schedule){
+    public String addSchdule(@RequestParam Integer uid,Schedule schedule){
 
         //将日程添加到数据库
         ErrorCode addResult = scheduleService.addSchedule(schedule);

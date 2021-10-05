@@ -1,10 +1,13 @@
 package com.example.byteluv.pojo;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.models.auth.In;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -14,14 +17,13 @@ import java.util.Date;
  * @Date 2021/9/22 14:29
  **/
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Accessors(chain = true)
+@EqualsAndHashCode(callSuper = false)
+@TableName("schdule")
 public class Schedule {
     private Integer id;
 
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private LocalDateTime startTime;
-    @JsonFormat(pattern = "yyyy-MM-dd hh:mm:ss")
     private LocalDateTime endTime;
 
     private String mainBody;
