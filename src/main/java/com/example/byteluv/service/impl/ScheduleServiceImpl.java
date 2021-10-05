@@ -1,5 +1,6 @@
 package com.example.byteluv.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.conditions.query.QueryChainWrapper;
 import com.example.byteluv.mappers.ScheduleMapper;
@@ -37,7 +38,7 @@ public class ScheduleServiceImpl implements ScheduleService {
     public ErrorCode addSchedule(Schedule schedule) {
 
         //日程是否已存在
-        if(scheduleMapper.selectOne(new QueryWrapper<Schedule>().eq("id",schedule.getId()))==null)
+        if(scheduleMapper.selectOne(new QueryWrapper<Schedule>().eq("id",schedule.getId()))!=null)
             return ErrorCode.ADDSCHEDULE_FAIL_EXIST;
 
         //判断开始日期是否早于结束日期
@@ -56,6 +57,35 @@ public class ScheduleServiceImpl implements ScheduleService {
 
         }
         return ErrorCode.ADDSCHEDULE_SUCCESS;
+    }
+
+    @Override
+    public ErrorCode deleteScheduleById(Integer dateId){
+        if(scheduleMapper.selectOne(new QueryWrapper<Schedule>().eq("id",dateId))==null){
+            return ErrorCode.DELSCHEDULE_FAIL_NULL;}
+        else{
+            try{
+                scheduleMapper.delete(new QueryWrapper<Schedule>().eq("id",dateId));
+            }catch (Exception e){
+                System.out.println("-------------");
+                System.out.println(e.getMessage());
+                System.out.println("-------------");
+                return ErrorCode.DELSCHEDULE_FAIL_DELETE;//删除错误
+            }
+        }
+        return ErrorCode.DELSCHEDULE_SUCCESS;
+    }
+
+    @Override
+    public Schedule getScheduleById(Integer dateId){
+        Schedule schedule=null;
+        try{
+            schedule = scheduleMapper.selectOne(new QueryWrapper<Schedule>().eq("id",dateId));
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return schedule;
+        }
+        return schedule;
     }
 
 }

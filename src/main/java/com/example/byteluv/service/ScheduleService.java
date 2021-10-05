@@ -13,4 +13,6 @@ import java.util.List;
 public interface ScheduleService {
     public List<Schedule> getScheduleByUidPeriod(Integer uid, String leftTime, String rightTime);
     public ErrorCode addSchedule(Schedule schedule);
+    public ErrorCode deleteScheduleById(Integer dateId);
+    public Schedule getScheduleById(Integer dateId);
 }

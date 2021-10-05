@@ -97,7 +97,32 @@ public class ScheduleController {
     @ResponseBody
     @PostMapping("/deleteSchdule")
     public String deleteSchdule(@RequestParam Integer dateId){
-        return "undo";
+
+        ErrorCode delResult = scheduleService.deleteScheduleById(dateId);
+
+        //返回前端的结果
+        Map<String,Object> result = new HashMap<>();
+
+        switch (delResult){
+            case DELSCHEDULE_FAIL_NULL:
+                result.put("ErrorCode",1);
+                result.put("Descript","删除失败，目标日程为空");
+            case DELSCHEDULE_FAIL_DELETE:
+                result.put("ErrorCode",1);
+                result.put("Descript","删除失败，删除数据失败");
+            case DELSCHEDULE_SUCCESS:
+                result.put("ErrorCode",0);
+                result.put("Descript","删除成功");
+        }
+
+        //将结果转为JSON
+        String jsonString = JSON.toJSONString(result);
+        JSONObject object = JSONObject.parseObject(jsonString);
+        String json = JSON.toJSONString(object, SerializerFeature.PrettyFormat, SerializerFeature.WriteMapNullValue,
+                SerializerFeature.WriteDateUseDateFormat);
+
+        //返回结果
+        return json;
     }
 
     @ResponseBody
