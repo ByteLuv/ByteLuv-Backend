@@ -90,8 +90,36 @@ public class ScheduleController {
 
     @ResponseBody
     @PostMapping("/modifySchedule")
-    public String modifySchedule(@RequestParam Integer dateId,@RequestParam Schedule schedule){
-        return "undo";
+    public String modifySchedule(@RequestParam Integer dateId, Schedule schedule){
+
+        ErrorCode updateResult = scheduleService.updateSchedule(dateId,schedule);
+        //查看修改完后的数据库id对应日程
+        Schedule modifiedSchedule = scheduleService.getScheduleById(dateId);
+
+        //返回前端的结果
+        Map<String,Object> result = new HashMap<>();
+
+        switch (updateResult){
+            case MODIFY_FAIL_NULL:
+                result.put("ErrorCode",1);
+                result.put("Schedule",modifiedSchedule);
+                result.put("Descript","修改失败，目标日程为空");
+            case MODIFY_FAIL_UPDATE:
+                result.put("ErrorCode",1);
+                result.put("Schedule",modifiedSchedule);
+                result.put("Descript","修改失败，更新数据库失败");
+            case MODIFY_SUCCESS:
+                result.put("ErrorCode",0);
+                result.put("Descript","修改成功");
+        }
+        //将结果转为JSON
+        String jsonString = JSON.toJSONString(result);
+        JSONObject object = JSONObject.parseObject(jsonString);
+        String json = JSON.toJSONString(object, SerializerFeature.PrettyFormat, SerializerFeature.WriteMapNullValue,
+                SerializerFeature.WriteDateUseDateFormat);
+
+        //返回结果
+        return json;
     }
 
     @ResponseBody
@@ -128,6 +156,30 @@ public class ScheduleController {
     @ResponseBody
     @PostMapping("/dateQueryWithId")
     public String dateQueryWithId(@RequestParam Integer dateId){
-        return "undo";
+
+        Schedule schedule = null;
+        schedule = scheduleService.getScheduleById(dateId);
+
+        //返回前端的结果
+        Map<String,Object> result = new HashMap<>();
+
+        if(schedule==null){
+            result.put("ErrorCode",1);
+            result.put("Descript","找不到该日程");
+        }
+        else {
+            result.put("ErrorCode",0);
+            result.put("Schedule",schedule);
+        }
+        //将结果转为JSON
+        String jsonString = JSON.toJSONString(result);
+        JSONObject object = JSONObject.parseObject(jsonString);
+        String json = JSON.toJSONString(object, SerializerFeature.PrettyFormat, SerializerFeature.WriteMapNullValue,
+                SerializerFeature.WriteDateUseDateFormat);
+
+        //返回结果
+        return json;
+
+
     }
 }

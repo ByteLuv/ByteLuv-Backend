@@ -22,7 +22,11 @@ public enum ErrorCode {
     ADDSCHEDULE_SUCCESS(8,0,"添加日程成功"),
     DELSCHEDULE_FAIL_NULL(9,1,"所删日程为空"),
     DELSCHEDULE_FAIL_DELETE(10,1,"删除日程失败"),
-    DELSCHEDULE_SUCCESS(11,0,"删除日程成功");
+    DELSCHEDULE_SUCCESS(11,0,"删除日程成功"),
+    MODIFY_FAIL_NULL(12,1,"所改日程为空"),
+    MODIFY_FAIL_UPDATE(13,1,"更新日程数据库失败"),
+    MODIFY_SUCCESS(14,0,"修改成功");
+
 
 
     private Integer code;

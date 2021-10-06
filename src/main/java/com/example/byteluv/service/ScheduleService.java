@@ -15,4 +15,5 @@ public interface ScheduleService {
     public ErrorCode addSchedule(Schedule schedule);
     public ErrorCode deleteScheduleById(Integer dateId);
     public Schedule getScheduleById(Integer dateId);
+    public ErrorCode updateSchedule(Integer dateId,Schedule schedule);
 }

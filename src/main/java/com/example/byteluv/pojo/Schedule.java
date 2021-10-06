@@ -19,7 +19,7 @@ import java.util.Date;
 @Data
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper = false)
-@TableName("schdule")
+@TableName("schedule")
 public class Schedule {
     private Integer id;
 

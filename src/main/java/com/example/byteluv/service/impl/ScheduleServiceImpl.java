@@ -2,6 +2,7 @@ package com.example.byteluv.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.segments.MergeSegments;
 import com.baomidou.mybatisplus.extension.conditions.query.QueryChainWrapper;
 import com.example.byteluv.mappers.ScheduleMapper;
 import com.example.byteluv.pojo.Schedule;
@@ -86,6 +87,24 @@ public class ScheduleServiceImpl implements ScheduleService {
             return schedule;
         }
         return schedule;
+    }
+
+    @Override
+    public ErrorCode updateSchedule(Integer dateId,Schedule schedule){
+        if(scheduleMapper.selectOne(new QueryWrapper<Schedule>().eq("id",dateId))!=null) {
+            try {
+                scheduleMapper.update(schedule, new QueryWrapper<Schedule>().eq("id", dateId));
+            } catch (Exception e) {
+                System.out.println("-------------");
+                System.out.println(e.getMessage());
+                System.out.println("-------------");
+                return ErrorCode.MODIFY_FAIL_UPDATE;//更新错误
+            }
+        }
+        else{
+            return ErrorCode.MODIFY_FAIL_NULL;
+                }
+        return ErrorCode.MODIFY_SUCCESS;
     }
 
 }
