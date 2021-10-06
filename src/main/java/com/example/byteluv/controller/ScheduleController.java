@@ -28,7 +28,7 @@ public class ScheduleController {
 
     @ResponseBody
     @PostMapping("/dateQueryWithPeriod")
-    public String getSchdule(@RequestParam Integer uid, String leftTime, String rightTime){
+    public String getSchedule(@RequestParam Integer uid, String leftTime, String rightTime){
 
         List<Schedule> schedules = scheduleService.getScheduleByUidPeriod(uid,leftTime,rightTime);
 
@@ -53,8 +53,8 @@ public class ScheduleController {
     }
 
     @ResponseBody
-    @PostMapping("/addSchdule")
-    public String addSchdule(@RequestParam Integer uid,Schedule schedule){
+    @PostMapping("/addSchedule")
+    public String addSchedule(@RequestParam Integer uid,Schedule schedule){
         //?schedule类实例本身就有uid，不需传值uid?
         //将日程添加到数据库
         ErrorCode addResult = scheduleService.addSchedule(schedule);
@@ -89,14 +89,14 @@ public class ScheduleController {
     }
 
     @ResponseBody
-    @PostMapping("/modifySchdule")
-    public String modifySchdule(@RequestParam Integer dateId,@RequestParam Schedule schedule){
+    @PostMapping("/modifySchedule")
+    public String modifySchedule(@RequestParam Integer dateId,@RequestParam Schedule schedule){
         return "undo";
     }
 
     @ResponseBody
-    @PostMapping("/deleteSchdule")
-    public String deleteSchdule(@RequestParam Integer dateId){
+    @PostMapping("/deleteSchedule")
+    public String deleteSchedule(@RequestParam Integer dateId){
 
         ErrorCode delResult = scheduleService.deleteScheduleById(dateId);
 
