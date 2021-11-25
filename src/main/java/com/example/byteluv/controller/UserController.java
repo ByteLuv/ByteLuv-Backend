@@ -20,8 +20,6 @@ import java.util.Map;
 @Slf4j
 public class UserController {
 
-
-
     @Autowired
     UserService userService;
 
@@ -129,26 +127,10 @@ public class UserController {
         return json;
     }
 
-
     @ResponseBody
-    @RequiresRoles("admin")
-    @GetMapping("/admin")
-    public String admin() {
-        return "admin success!";
-    }
-
-    @ResponseBody
-    @RequiresPermissions("query")
-    @GetMapping("/index")
-    public String index() {
-        return "index success!";
-    }
-
-    @ResponseBody
-    @RequiresPermissions("add")
-    @GetMapping("/add")
-    public String add() {
-        return "add success!";
+    @GetMapping("/bind")
+    public String bindUser(@RequestParam String uname){
+        return "bind succes!";
     }
 
 
