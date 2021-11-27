@@ -14,6 +14,9 @@ import com.example.byteluv.util.ErrorCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -136,6 +139,25 @@ public class ScheduleServiceImpl implements ScheduleService {
         queryWrapper.eq("date",date);
         List<ScheduleItem> scheduleItemList = scheduleItemMapper.selectList(queryWrapper);
         return  scheduleItemList;
+    }
+
+    @Override
+    public List<ScheduleItem> getMonthScheduleByUserIdAndDate(Integer uid, String date) {
+
+        String startTime = date+"-"+"00";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date dt = sdf.parse(startTime,new ParsePosition(0));
+        Calendar rightNow = Calendar.getInstance();
+        rightNow.setTime(dt);
+        rightNow.add(Calendar.MONTH, 1);
+        Date dt1 = rightNow.getTime();
+        String endTime = sdf.format(dt1);
+
+
+
+        List<ScheduleItem> scheduleItemList = scheduleItemMapper.selectList(new QueryWrapper<ScheduleItem>().between("date",startTime,endTime));
+
+        return scheduleItemList;
     }
 
     @Override

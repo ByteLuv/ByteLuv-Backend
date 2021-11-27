@@ -19,6 +19,7 @@ public interface ScheduleService {
     public ErrorCode updateSchedule(Integer dateId,Schedule schedule);
 
     public List<ScheduleItem> getScheduleByUserIdAndDate(Integer uid, String date);
+    public List<ScheduleItem> getMonthScheduleByUserIdAndDate(Integer uid, String date);
     public ErrorCode addScheduleItem(ScheduleItem schedule);
     public ErrorCode updateScheduleItem(Integer dateId,ScheduleItem schedule);
     public ScheduleItem getScheduleItemById(Integer dateId);

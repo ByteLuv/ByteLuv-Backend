@@ -382,4 +382,42 @@ public class ScheduleController {
 
 
     }
+
+    @ResponseBody
+    @GetMapping("/getMonthScheduleWithUserIdAndDate")
+    public String getMonthScheduleWithUserIdAndDate(@RequestParam Integer uid, @RequestParam Date date){
+        //检查是否已经登录
+//        HttpSession session = request.getSession();
+//        if(session.getAttribute("uid")==null){
+//            return "login first";
+//        }
+
+        String[] array = date.toString().split("-");
+        String yearMonth = array[0]+"-"+array[1];
+
+        List<ScheduleItem> scheduleItemList = null;
+        scheduleItemList = scheduleService.getMonthScheduleByUserIdAndDate(uid,yearMonth);
+
+        //返回前端的结果
+        Map<String,Object> result = new HashMap<>();
+
+        if(scheduleItemList==null){
+            result.put("ErrorCode",1);
+            result.put("Descript","当天无日程");
+        }
+        else {
+            result.put("ErrorCode",0);
+            result.put("Schedule",scheduleItemList);
+        }
+        //将结果转为JSON
+        String jsonString = JSON.toJSONString(result);
+        JSONObject object = JSONObject.parseObject(jsonString);
+        String json = JSON.toJSONString(object, SerializerFeature.PrettyFormat, SerializerFeature.WriteMapNullValue,
+                SerializerFeature.WriteDateUseDateFormat);
+
+        //返回结果
+        return json;
+
+
+    }
 }
