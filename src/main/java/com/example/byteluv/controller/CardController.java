@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,11 +36,18 @@ public class CardController {
     @Autowired
     CardService cardService;
 
+    @Autowired
+    HttpServletRequest request; //这里可以获取到request
+
     @ResponseBody
     @GetMapping("/userCardQuery")
     @ApiOperation(value = "userCardQuery")
     public String userCardQuery(@RequestParam Integer uid){
-
+        //检查是否已经登录
+//        HttpSession session = request.getSession();
+//        if(session.getAttribute("uid")==null){
+//            return "login first";
+//        }
 
         Card card = null;
         card = cardService.getCardByUId(uid);
@@ -66,7 +74,11 @@ public class CardController {
     @ResponseBody
     @GetMapping("/loveLetterQuery")
     public String loveLetterQuery(@RequestParam Integer cid){
-
+        //检查是否已经登录
+//        HttpSession session = request.getSession();
+//        if(session.getAttribute("uid")==null){
+//            return "login first";
+//        }
         Card card = null;
         CardDecoration cardDecoration =null;
         card = cardService.getCardByCId(cid);

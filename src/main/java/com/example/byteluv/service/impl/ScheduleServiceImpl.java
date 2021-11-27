@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.segments.MergeSegments;
 import com.baomidou.mybatisplus.extension.conditions.query.QueryChainWrapper;
+import com.example.byteluv.mappers.ScheduleItemMapper;
 import com.example.byteluv.mappers.ScheduleMapper;
 import com.example.byteluv.pojo.Schedule;
+import com.example.byteluv.pojo.ScheduleItem;
 import com.example.byteluv.pojo.User;
 import com.example.byteluv.service.ScheduleService;
 import com.example.byteluv.util.ErrorCode;
@@ -24,6 +26,9 @@ public class ScheduleServiceImpl implements ScheduleService {
 
     @Autowired
     ScheduleMapper scheduleMapper;
+
+    @Autowired
+    ScheduleItemMapper scheduleItemMapper;
 
     @Override
     public List<Schedule> getScheduleByUidPeriod(Integer uid, String leftTime, String rightTime) {
@@ -60,6 +65,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         return ErrorCode.ADDSCHEDULE_SUCCESS;
     }
 
+
     @Override
     public ErrorCode deleteScheduleById(Integer dateId){
         if(scheduleMapper.selectOne(new QueryWrapper<Schedule>().eq("id",dateId))==null){
@@ -91,6 +97,7 @@ public class ScheduleServiceImpl implements ScheduleService {
         return schedule;
     }
 
+
     @Override
     public ErrorCode updateSchedule(Integer dateId,Schedule schedule){
         if(scheduleMapper.selectOne(new QueryWrapper<Schedule>().eq("id",dateId))!=null) {
@@ -107,6 +114,77 @@ public class ScheduleServiceImpl implements ScheduleService {
             return ErrorCode.MODIFY_FAIL_NULL;
                 }
         return ErrorCode.MODIFY_SUCCESS;
+    }
+
+
+
+
+    @Override
+    public ErrorCode addScheduleItem(ScheduleItem schedule) {
+        try {
+            scheduleItemMapper.insert(schedule);
+        }catch (Exception e){
+            return ErrorCode.ADDSCHEDULE_FAIL_INSER;
+        }
+        return ErrorCode.ADDSCHEDULE_SUCCESS;
+    }
+
+    @Override
+    public List<ScheduleItem> getScheduleByUserIdAndDate(Integer uid,String date) {
+        QueryWrapper queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("uid",uid);
+        queryWrapper.eq("date",date);
+        List<ScheduleItem> scheduleItemList = scheduleItemMapper.selectList(queryWrapper);
+        return  scheduleItemList;
+    }
+
+    @Override
+    public ErrorCode updateScheduleItem(Integer dateId, ScheduleItem schedule) {
+        if(scheduleItemMapper.selectOne(new QueryWrapper<ScheduleItem>().eq("id",dateId))!=null) {
+            try {
+                scheduleItemMapper.update(schedule, new QueryWrapper<ScheduleItem>().eq("id", dateId));
+            } catch (Exception e) {
+                System.out.println("-------------");
+                System.out.println(e.getMessage());
+                System.out.println("-------------");
+                return ErrorCode.MODIFY_FAIL_UPDATE;//更新错误
+            }
+        }
+        else{
+            return ErrorCode.MODIFY_FAIL_NULL;
+        }
+        return ErrorCode.MODIFY_SUCCESS;
+    }
+
+    @Override
+    public ScheduleItem getScheduleItemById(Integer dateId) {
+        ScheduleItem scheduleItem=null;
+        try{
+            scheduleItem = scheduleItemMapper.selectOne(new QueryWrapper<ScheduleItem>().eq("id",dateId));
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+            return scheduleItem;
+        }
+
+
+        return scheduleItem;
+    }
+
+    @Override
+    public ErrorCode deleteScheduleItemById(Integer dateId) {
+        if(scheduleItemMapper.selectOne(new QueryWrapper<ScheduleItem>().eq("id",dateId))==null){
+            return ErrorCode.DELSCHEDULE_FAIL_NULL;}
+        else{
+            try{
+                scheduleItemMapper.delete(new QueryWrapper<ScheduleItem>().eq("id",dateId));
+            }catch (Exception e){
+                System.out.println("-------------");
+                System.out.println(e.getMessage());
+                System.out.println("-------------");
+                return ErrorCode.DELSCHEDULE_FAIL_DELETE;//删除错误
+            }
+        }
+        return ErrorCode.DELSCHEDULE_SUCCESS;
     }
 
 }

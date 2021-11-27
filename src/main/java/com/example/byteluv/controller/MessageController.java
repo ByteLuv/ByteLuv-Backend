@@ -8,6 +8,7 @@ import com.example.byteluv.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,9 +23,18 @@ public class MessageController {
     @Autowired
     MessageService messageService;
 
+    @Autowired
+    HttpServletRequest request; //这里可以获取到request
+
     @ResponseBody
     @GetMapping("/mailBoxQuery")
     public String mailBoxQuery(@RequestParam Integer uid){
+        //检查是否已经登录
+//        HttpSession session = request.getSession();
+//        if(session.getAttribute("uid")==null){
+//            return "login first";
+//        }
+
         List<Message> messages = messageService.getMessageByUid(uid);
 
         Map<String,Object> result = new HashMap<>();
@@ -48,7 +58,11 @@ public class MessageController {
     @ResponseBody
     @PostMapping("/sendMessage")
     public String sendMessage(@RequestParam Integer uid,Message message){
-
+        //检查是否已经登录
+//        HttpSession session = request.getSession();
+//        if(session.getAttribute("uid")==null){
+//            return "login first";
+//        }
         Map<String,Object> result = new HashMap<>();
 
         if(message==null||message.getUid()==null){
@@ -75,6 +89,11 @@ public class MessageController {
     @ResponseBody
     @GetMapping("/deleteMessage")
     public String deleteMMessageById(@RequestParam Integer uid,@RequestParam Integer messageId){
+        //检查是否已经登录
+//        HttpSession session = request.getSession();
+//        if(session.getAttribute("uid")==null){
+//            return "login first";
+//        }
         Map<String,Object> result = new HashMap<>();
         if(messageService.deleteMessageById(uid,messageId)){
             result.put("ErrorCode",0);

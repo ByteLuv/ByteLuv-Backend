@@ -26,7 +26,7 @@ import java.util.Date;
 @ApiModel(value="User对象", description="")
 public class User {
 
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(type = IdType.AUTO)
     private Integer id;
 
     private String uname;
