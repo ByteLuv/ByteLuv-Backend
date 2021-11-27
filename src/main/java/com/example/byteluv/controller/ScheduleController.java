@@ -349,7 +349,7 @@ public class ScheduleController {
 //    }
 
     @ResponseBody
-    @PostMapping("/getScheduleWithUserIdAndDate")
+    @GetMapping("/getScheduleWithUserIdAndDate")
     public String getScheduleWithUserIdAndDate(@RequestParam Integer uid, @RequestParam Date date){
         //检查是否已经登录
 //        HttpSession session = request.getSession();
