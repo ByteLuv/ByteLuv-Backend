@@ -21,7 +21,8 @@ public class LetterServiceImpl implements LetterService {
     @Override
     public Boolean addLoveLetterByUid(Integer uid, LoveLetter loveLetter) {
         try{
-            loveLetterMapper.insert(loveLetter);
+            Integer id = loveLetterMapper.insert(loveLetter);
+            System.out.println(loveLetter.getId());
         }catch (Exception e){
             return Boolean.FALSE;
         }
